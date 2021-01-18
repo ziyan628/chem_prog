@@ -16,7 +16,7 @@ Tasks:
 
 tasks = ["Linear polyene", "Cyclic polyene", "Platonic solids", "Buckminsterfullerene"]
 
-print("Welcome to this Ziyan's Huckel solver")
+print("Welcome to Ziyan's Huckel solver")
 
 print("Select method:")
 
