@@ -1,5 +1,6 @@
 import numpy as np
 from collections import deque
+from sage.all import *
 
 
 """
@@ -43,27 +44,8 @@ def degen_solver(evals):
     for eval in np.unique(evals):
         degen[eval] = int(np.count_nonzero(evals == eval))
     for key in degen:
-        print("Eigenvalue, ",key,", has a degeneracy of,", degen[key])
+        print("Eigenvalue, ",round(key,2),", has a degeneracy of,", degen[key])
     return 
-
-"""
-get_huckel_matrix_platonic takes argument i and j
-i is number of molecules
-j is number of edges per vertex
-the function takes a huckel matrix for cyclic polyene and adds off-diagonal b elements
-this satisfies the requirements of a huckel matrix for platonic solid
-"""
-
-def get_huckel_matrix_platonic(i,j):
-    k = int(i/(j-1))
-    matrix = get_huckel_matrix_polyene(i, cyclic = True)
-    r = 0
-    while r < i:
-        r += k
-        np.fill_diagonal(matrix[(r):], b)
-        np.fill_diagonal(matrix[:,(r):], b)
-        
-    return matrix
 
 
 """
@@ -84,11 +66,27 @@ def generate_cyclic_face(matrix, carbon_list):
         matrix[carbon][carbons_to_the_right.popleft()] = b
     return matrix
 
+
+
+"""generate platonic solids, where i is the key of the platonic solid to be generated
+this uses the sagemath library
+"""
+
+def get_huckel_matrix_platonic(i):
+   
+    d = {'a':graphs.TetrahedralGraph, 'b':graphs.HexahedralGraph, 
+        'c':graphs.OctahedralGraph, 'd':graphs.DodecahedralGraph, 'e':graphs.IcosahedralGraph}
+    try:
+        print(d[i]().adjacency_matrix()*-1)
+        return d[i]().adjacency_matrix()*-1
+    except KeyError:
+        raise ValueError
 """
 make_a_bucky_ball makes a list of list called segments (i used a 2d "orange peel" representation to label the carbons)
 each "segment" is a list of carbon positions in cyclic order
 the segements is then iterated over the generate_cyclic_face function to return a huckle matrix for buckminsterfullerene
 """
+
 def make_a_bucky_ball():
     segments = [[0,1,2,3,4],
                [0,1,8,7,6,5],

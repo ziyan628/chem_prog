@@ -25,17 +25,21 @@ for method in tasks:
 
 method = int(input())
 
-if method < 3:
-    print("Input number of molecules")
+if method < 2:
+    print("Input number of atoms")
     n = int(input())
     if method == 0:
         matrix =  helper.get_huckel_matrix_polyene(n)
     elif method == 1:
-        matrix =  helper.get_huckel_matrix_polyene(n, cyclic = False)
-    elif method == 2:
-        print("Input number of edges per vertex")
-        j = int(input())
-        matrix = helper.get_huckel_matrix_platonic(n,j)
+        matrix =  helper.get_huckel_matrix_polyene(n, cyclic = True)
+
+if method == 2:  
+    d = {'a':'Tetrahedron', 'b':'Cube', 
+        'c':'Octahedron', 'd':'Dodecahedron', 'e':'Icosahedron'}
+    for keys in d.keys():
+        print(f'FOR {d[keys]}, SELECT {keys}')
+    i = input()
+    matrix = helper.get_huckel_matrix_platonic(i)
 
 if method == 3:
     matrix = helper.make_a_bucky_ball()
