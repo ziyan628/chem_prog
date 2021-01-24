@@ -48,6 +48,20 @@ def degen_solver(evals):
     return 
 
 
+
+"""generate platonic solids, where i is the key of the platonic solid to be generated
+this uses the sagemath library
+"""
+
+def get_huckel_matrix_platonic(i):
+   
+    d = {'a':graphs.TetrahedralGraph, 'b':graphs.HexahedralGraph, 
+        'c':graphs.OctahedralGraph, 'd':graphs.DodecahedralGraph, 'e':graphs.IcosahedralGraph}
+   
+    return d[i]().adjacency_matrix()*-1
+ 
+
+
 """
 generate_cyclic_face takes in matrix and a list of carbon positions in cyclic order 
 updates the huckel matrix accordingly
@@ -66,21 +80,6 @@ def generate_cyclic_face(matrix, carbon_list):
         matrix[carbon][carbons_to_the_right.popleft()] = b
     return matrix
 
-
-
-"""generate platonic solids, where i is the key of the platonic solid to be generated
-this uses the sagemath library
-"""
-
-def get_huckel_matrix_platonic(i):
-   
-    d = {'a':graphs.TetrahedralGraph, 'b':graphs.HexahedralGraph, 
-        'c':graphs.OctahedralGraph, 'd':graphs.DodecahedralGraph, 'e':graphs.IcosahedralGraph}
-    try:
-        print(d[i]().adjacency_matrix()*-1)
-        return d[i]().adjacency_matrix()*-1
-    except KeyError:
-        raise ValueError
 """
 make_a_bucky_ball makes a list of list called segments (i used a 2d "orange peel" representation to label the carbons)
 each "segment" is a list of carbon positions in cyclic order
